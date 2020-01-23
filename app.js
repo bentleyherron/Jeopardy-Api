@@ -9,21 +9,29 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 // Routing
-const indexRouter = require('./routes/index');
-const profileRouter = require('./routes/profile');
 const apiRouter = require('./routes/api');
+const indexRouter = require('./routes/index');
 const loginRouter = require('./routes/login');
 const logOutRouter = require('./routes/logout');
+const profileRouter = require('./routes/profile');
 const signUpRouter = require('./routes/signup');
 
 const app = express();
 
+// Session
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
+app.use(session({
+  store: new FileStore({}),
+  secret: process.env.SESSION_KEY,
+  cookie: { secure: false }
+}));
 
 // view engine setup
 const es6Renderer = require('express-es6-template-engine');
+app.engine('html', es6Renderer);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
-app.engine('html', es6Renderer);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -54,10 +62,18 @@ function requireLogin(req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
-app.use('/signup', signUpRouter)
 app.use('/login', loginRouter);
+app.use('/signup', signUpRouter);
 app.use('/logout', requireLogin, logOutRouter);
 app.use('/profile', requireLogin, profileRouter);
+
+
+/////////////////////////////////////////////////////////////
+//      TEST DEV CATCHALL
+app.use('*', (req, res) => {
+  res.status(404).send("Test Dev - Catchall got it.");
+})
+/////////////////////////////////////////////////////////////
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

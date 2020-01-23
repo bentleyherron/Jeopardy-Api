@@ -12,23 +12,20 @@ const parseForm = bodyParser.urlencoded({
 
 
 // Get signup page
-router.get('/signup', (req, res, next) => {
-	res.render('login', {
+router.get('/', (req, res, next) => {
+	res.render('auth', {
 		locals: {
-			pagetitle: 'Signup',
-			submitValue: 'Signup'
+			pagetitle: 'Create Account',
+			submitValue: 'Sign Up'
 		},
 		partials: {
 			analytics: 'partials/analytics',
-			head: '/partials/head',
-			navbar: req.session.navbar.value,
-			footer: 'partials/footer'
 		}
 	});
 });
 
 // Signup post
-router.post('/signup', parseForm, async(req, res) => {
+router.post('/', parseForm, async(req, res) => {
 	const { name, password } = req.body;
 	const checkUsername = await users.checkUsername(name);
 	if (checkUsername.length > 0) {

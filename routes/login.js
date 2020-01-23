@@ -12,21 +12,14 @@ const parseForm = bodyParser.urlencoded({
 
 
 // Get login page
-router.get('/', (req, res, next) =>
-{
-	res.render('auth',
-	{
-		locals:
-		{
+router.get('/', (req, res, next) => {
+	res.render('auth', {
+		locals: {
 			pagetitle: 'Login',
 			submitValue: 'Login'
 		},
-		partials:
-		{
+		partials: {
 			analytics: 'partials/analytics',
-			head: '/partials/head',
-			navbar: req.session.navbar.value,
-			footer: '/partials/footer'
 		}
 	});
 });
