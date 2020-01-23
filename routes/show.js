@@ -2,9 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // Models
-const question = require('../models/question');
 const show = require('../models/show');
-const values = require('../models/values');
 
 
 router.get('/', (req, res)=> {

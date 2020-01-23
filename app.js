@@ -1,19 +1,23 @@
+// Add env
+const dotenv = require('dotenv');
+dotenv.config();
+
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+// Routing
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const profileRouter = require('./routes/profile');
 const apiRouter = require('./routes/api');
-
+const loginRouter = require('./routes/login');
+const logOutRouter = require('./routes/logout');
+const signUpRouter = require('./routes/signup');
 
 const app = express();
 
-// Add env
-const dotenv = require('dotenv');
-dotenv.config();
 
 // view engine setup
 const es6Renderer = require('express-es6-template-engine');
@@ -39,9 +43,21 @@ app.use(cors());
 const compression = require('compression');
 app.use(compression());
 
+// Requires Login
+function requireLogin(req, res, next) {
+  if (req.session && req.session.user) {
+      next();
+  } else {
+      res.redirect('/login');
+  }
+};
+
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
-app.use('/users', usersRouter);
+app.use('/signup', signUpRouter)
+app.use('/login', loginRouter);
+app.use('/logout', requireLogin, logOutRouter);
+app.use('/profile', requireLogin, profileRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

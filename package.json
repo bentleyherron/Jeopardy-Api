@@ -10,8 +10,8 @@
     "db:create": "createdb jeopardy-api",
     "db:schema": "psql -f schema.sql jeopardy-api",
     "db:seed": "psql -f seed.sql jeopardy-api",
-    "db:reset": "npm run db:delete && npm run db:create && npm run db:schema && npm run db:seed",
-    "dev": "nodemon --ignore './sessions/' ./bin/www"
+    "db:reset": "npm run db:delete; npm run db:create && npm run db:schema && npm run db:seed",
+    "dev": "NODE_ENV=development nodemon --ignore './sessions/' ./bin/www"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/bentleyherron/jeopardy-api#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
@@ -36,10 +37,10 @@
     "express-es6-template-engine": "^2.2.1",
     "helmet": "^3.21.2",
     "http-errors": "~1.6.3",
-    "morgan": "~1.9.1",
     "pg-promise": "^10.3.2"
   },
   "devDependencies": {
+    "morgan": "~1.9.1",
     "nodemon": "^2.0.2"
   }
 }
