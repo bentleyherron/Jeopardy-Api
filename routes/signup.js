@@ -15,7 +15,7 @@ const parseForm = bodyParser.urlencoded({
 router.get('/', (req, res, next) => {
 	res.render('auth', {
 		locals: {
-			pagetitle: 'Create Account',
+			pageTitle: 'Create Account',
 			submitValue: 'Sign Up'
 		},
 		partials: {

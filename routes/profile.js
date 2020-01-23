@@ -24,8 +24,7 @@ function requireLogin(req, res, next) {
 router.get('/', async (req, res) => {
     res.render('profile', {
         locals: {
-            pagetitle: `Profile`,
-            username: req.session.user.name,
+            pageTitle: `Profile`,
         },
         partials: {
             analytics: 'partials/analytics',
@@ -40,7 +39,7 @@ router.get('/', async (req, res) => {
 router.get('/change-password', requireLogin, (req, res, next) => {
     res.render('change-password', {
         locals: {
-            pagetitle: 'Change Password',
+            pageTitle: 'Change Password',
             submitValue: 'Change Password'
         },
         partials: {
@@ -54,10 +53,7 @@ router.get('/change-password', requireLogin, (req, res, next) => {
 
 // Signup post
 router.post('/change-password', requireLogin, parseForm, async (req, res) => {
-    const {
-        password1,
-        password2
-    } = req.body;
+    const { password1, password2 } = req.body;
     if (password1 === password2) {
         const newPassword = users.createHash(password2);
         const userID = req.session.user.id;

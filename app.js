@@ -15,6 +15,7 @@ const loginRouter = require('./routes/login');
 const logOutRouter = require('./routes/logout');
 const profileRouter = require('./routes/profile');
 const signUpRouter = require('./routes/signup');
+const forgotRouter = require('./routes/forgot');
 
 const app = express();
 
@@ -62,6 +63,7 @@ function requireLogin(req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
+app.use('/forgot', forgotRouter);
 app.use('/login', loginRouter);
 app.use('/signup', signUpRouter);
 app.use('/logout', requireLogin, logOutRouter);
