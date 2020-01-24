@@ -1,6 +1,5 @@
 const db = require('./connection');
 const bcrypt = require('bcryptjs');
-const uuidv5 = require('uuid/v5');
 
 
 function createHash(password) {
@@ -12,20 +11,20 @@ function convertUsername(username) {
     return username.toLowerCase();
 };
 
-function createAPIKey(loginCombined, apiSecret) {
-    const apiKey = uuidv5(apiSecret, loginCombined);
-    return apiKey;
+function createAPIKey(keyString) {
+    const salt = bcrypt.genSaltSync(10);
+    return bcrypt.hashSync(keyString, salt);
 };
 
 function create(email, password) {
     const lowerUsername = email.toLowerCase();
     const hash = createHash(password);
-    const loginCombined = lowerUsername + hash
+    const loginCombined = email + process.env.API_NAMESPACE;
     const apiKey = createAPIKey(loginCombined, process.env.API_NAMESPACE);
     const newUser = {
         username: lowerUsername,
         joined_date: new Date(),
-        password: hash,
+        hash,
         api_key: apiKey
     };
     return newUser;
