@@ -10,7 +10,7 @@ const question = require('../models/question');
 router.get('/', (req, res)=> {
     res.status(200).send({
         success: true,
-        time: Date.now(),
+        time: new Date(),
         message: `Got a random show question.`,
         question: question.getRandomQuestion()
     })

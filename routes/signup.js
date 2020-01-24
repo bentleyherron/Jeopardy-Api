@@ -26,19 +26,19 @@ router.get('/', (req, res, next) => {
 
 // Signup post
 router.post('/', parseForm, async(req, res) => {
-	const { name, password } = req.body;
-	const checkUsername = await users.checkUsername(name);
-	if (checkUsername.length > 0) {
-		res.send(`<h1>Please try another username.</h1><br>
-      <h4><a href="/signup">Return to Signup</a><h4>`);
-	} else {
-		const createdUser = await users.create(name, password);
+	const { email, password } = req.body;
+	const checkUsername = await users.checkUsername(email);
+	if (!checkUsername.length > 0) {
+		const createdUser = await users.create(email, password);
 		if (createdUser) {
-			const theUser = await users.addUserToDB(createdUser);
+			const theUser = await users.addUser(createdUser);
 			res.redirect('/login');
 		} else {
-			// pass
+			res.send('Could not create your account. Please try again.');
 		}
+	} else {
+		res.send(`<h1>Please try another username.</h1><br>
+      <h4><a href="/signup">Return to Signup</a><h4>`);
 	}
 });
 

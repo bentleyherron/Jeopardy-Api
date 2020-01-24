@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // Logout
-router.get('/logout', (req, res) => {
+router.get('/', (req, res) => {
 	req.session.destroy(() => {
 		res.redirect('/login');
 	});

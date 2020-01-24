@@ -26,24 +26,20 @@ router.get('/', (req, res, next) => {
 
 // Login post
 router.post('/', parseForm, async (req, res) => {
-	const { name, password } = req.body;
-	const didLoginSuccessfully = await users.login(name, password);
-	if (didLoginSuccessfully)
-	{
-		const theUser = await users.getByUsername(name);
-		req.session.navbar.value = '/partials/navbar-loggedin';
-		req.session.user = {
-			name,
-			id: theUser.id,
-		};
-		req.session.save(() =>
-		{
-			res.redirect('/profile');
-		});
-	}
-	else
-	{
-
+	const { email, password } = req.body;
+	const checkUser = await users.checkUsername(email);
+	if (checkUser) {
+		const didLoginSuccessfully = await users.login(email, password);
+		if (didLoginSuccessfully) {
+			const theUser = await users.getUserByEmail(email);
+			// req.session.navbar.value = '/partials/navbar-loggedin';
+			req.session.user = { email: theUser.email, id: theUser.id};
+			req.session.save(() => { res.redirect('/profile');});
+		} else {
+			res.send('Could not log you in. Please Try Again.');
+		}
+	} else {
+		res.send('Could not find a that email address.');
 	}
 });
 

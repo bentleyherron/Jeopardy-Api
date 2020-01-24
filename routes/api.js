@@ -14,7 +14,7 @@ const randomRouter = require('./random');
 router.get('/', (req, res)=> {
     res.status(200).send({
         success: true,
-        time: Date.now(),
+        time: new Date(),
         message: "Hello You Cheeky Bastard",
 
     });
@@ -24,7 +24,7 @@ router.get('/', (req, res)=> {
 router.get('/rounds', (req, res)=> {
     res.status(200).send({
         success: true,
-        time: Date.now(),
+        time: new Date(),
         message: "Got all the round names.",
         round_names: values.getRoundNames()
     })
@@ -34,7 +34,7 @@ router.get('/rounds', (req, res)=> {
 router.get('/categories', (req, res)=> {
     res.status(200).send({
         success: true,
-        time: Date.now(),
+        time: new Date(),
         message: "Got all the category names.",
         category_names: values.getCategoryNames()
     })
@@ -44,7 +44,7 @@ router.get('/categories', (req, res)=> {
 router.get('/values', (req, res)=> {
     res.status(200).send({
         success: true,
-        time: Date.now(),
+        time: new Date(),
         message: "Got all the values.",
         value_names: values.getValues()
     })

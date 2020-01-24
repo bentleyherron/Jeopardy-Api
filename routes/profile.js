@@ -22,15 +22,16 @@ function requireLogin(req, res, next) {
 
 
 router.get('/', async (req, res) => {
+    const apiKey = await users.getUserAPIKey(req.session.user.id);
     res.render('profile', {
         locals: {
             pageTitle: `Profile`,
+            apiKey,
         },
         partials: {
             analytics: 'partials/analytics',
-            head: '/partials/head',
-            navbar: req.session.navbar.value,
-            footer: 'partials/footer'
+            // head: 'partials/head',
+            // footer: 'partials/footer'
         }
     });
 });
@@ -44,9 +45,8 @@ router.get('/change-password', requireLogin, (req, res, next) => {
         },
         partials: {
             analytics: 'partials/analytics',
-            head: '/partials/head',
-            navbar: req.session.navbar.value,
-            footer: 'partials/footer'
+            // head: '/partials/head',
+            // footer: 'partials/footer'
         }
     });
 });
@@ -61,7 +61,7 @@ router.post('/change-password', requireLogin, parseForm, async (req, res) => {
         if (updatedUser) {
             res.redirect('/profile');
         } else {
-
+            res.send('Something went wrong');
         }
     } else {
         console.log("Could not update password.");
