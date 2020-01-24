@@ -32,9 +32,15 @@ router.post('/', parseForm, async (req, res) => {
 		const didLoginSuccessfully = await users.login(email, password);
 		if (didLoginSuccessfully) {
 			const theUser = await users.getUserByEmail(email);
+			const updateLogin = await users.updateLastLoggedIn(theUser.id);
 			// req.session.navbar.value = '/partials/navbar-loggedin';
-			req.session.user = { email: theUser.email, id: theUser.id};
-			req.session.save(() => { res.redirect('/profile');});
+			req.session.user = {
+				email: theUser.email, 
+				id: theUser.id
+			};
+			req.session.save(() => { 
+				res.redirect('/profile');
+			});
 		} else {
 			res.send('Could not log you in. Please Try Again.');
 		}

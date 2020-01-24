@@ -68,6 +68,16 @@ async function updatePassword(userID, password) {
     }
 };
 
+async function updateLastLoggedIn(userID) {
+    const date = new Date();
+    const result = await db.result(`update users set last_logged_in=$1 where id=$2;`, [date, userID]);
+    if (result.rowCount === 1) {
+        return userID;
+    } else {
+        return null;
+    }
+};
+
 async function getUserAPIKey(userID) {
     const theUser = await db.one(`select api_key from users where id=$1`, [userID]);
     return theUser.api_key;
@@ -83,5 +93,6 @@ module.exports = {
     getUserByEmail,
     addUser,
     updatePassword,
-    getUserAPIKey
+    getUserAPIKey,
+    updateLastLoggedIn
 }
