@@ -71,9 +71,13 @@ app.use('/profile', requireLogin, profileRouter);
 
 
 /////////////////////////////////////////////////////////////
-//      TEST DEV CATCHALL
+//      CATCHALL
 app.use('*', (req, res) => {
-  res.status(404).send("Test Dev - Catchall got it.");
+  res.status(404).send({
+    success: false,
+    time: new Date(),
+    message: "The specified resource could not be found.",
+  })
 })
 /////////////////////////////////////////////////////////////
 

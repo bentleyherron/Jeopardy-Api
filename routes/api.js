@@ -15,8 +15,7 @@ router.get('/', (req, res)=> {
     res.status(200).send({
         success: true,
         time: new Date(),
-        message: "Hello You Cheeky Bastard",
-
+        message: "This is the Jeopardy API",
     });
 })
 

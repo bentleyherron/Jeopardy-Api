@@ -17,7 +17,7 @@ router.get('/password', (req, res, next) => {
 	res.render('forgot', {
 		partials: {
 			locals: {
-				pageTitle: 'Forgot Username'
+				pageTitle: 'Forgot Password'
 			},
 			analytics: 'partials/analytics'
 		}
