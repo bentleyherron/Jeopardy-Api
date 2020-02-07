@@ -1,50 +1,565 @@
-<!DOCTYPE html>
-<html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta http-equiv="X-UA-Compatible" content="ie=edge">
-      <title>Jeopardy API</title>
-      ${analytics}
-   </head>
-   <body>
-      <h1>Welcome to the Jeopardy API</h1>
-      <h3>Over 200,000 Jeopardy Questions.</h3>
-      <ul>
-         <li>
-            <a href="/api/random">/api/random</a>
-         </li>
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Jeopardy API</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .cd {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <link href="stylesheets/screen-a1ce949a.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-bccf8c07.css" rel="stylesheet" media="print" />
+      <script src="/javascripts/all-c5541673.js"></script>
+  </head>
+
+  <body class="index" data-languages="[&quot;shell&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar-cad8cdcb.png" alt="Navbar" />
+      </span>
+    </a>
+    <div class="toc-wrapper">
+      <img src="images/logo-06684429.png" class="logo" alt="Logo" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="shell">shell</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <ul id="toc" class="toc-list-h1">
+          <li>
+            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
+          </li>
+          <li>
+            <a href="#question" class="toc-h1 toc-link" data-title="Question">Question</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-a-random-question" class="toc-h2 toc-link" data-title="Get A Random Question">Get A Random Question</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#shows" class="toc-h1 toc-link" data-title="Shows">Shows</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-all-show-numbers" class="toc-h2 toc-link" data-title="Get All Show Numbers">Get All Show Numbers</a>
+                  </li>
+                  <li>
+                    <a href="#get-questions-from-a-show" class="toc-h2 toc-link" data-title="Get Questions from a Show">Get Questions from a Show</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#categories" class="toc-h1 toc-link" data-title="Categories">Categories</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-all-categories" class="toc-h2 toc-link" data-title="Get All Categories">Get All Categories</a>
+                  </li>
+                  <li>
+                    <a href="#get-questions-from-a-category" class="toc-h2 toc-link" data-title="Get Questions from a Category">Get Questions from a Category</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#rounds" class="toc-h1 toc-link" data-title="Rounds">Rounds</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-all-rounds" class="toc-h2 toc-link" data-title="Get All Rounds">Get All Rounds</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#values" class="toc-h1 toc-link" data-title="Values">Values</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-all-values" class="toc-h2 toc-link" data-title="Get All Values">Get All Values</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+          </li>
       </ul>
-      <ul>
-         <li>
-            <a href="/api">/api</a>
-         </li>
-         <li>
-            <a href="/api/rounds">/api/rounds</a>
-         </li>
-         <li>
-            <a href="/api/categories">/api/categories</a>
-         </li>
-         <li>
-            <a href="/api/values">/api/values</a>
-         </li>
-      </ul>
-      <ul>
-         <li>
-            <a href="/api/shows">/api/shows</a>
-         </li>
-         <li>
-            <a href="/api/shows/3147">/api/shows/[show number]</a>
-         </li>
-         <li>
-            <a href="/api/shows/3147/2">/api/shows/[show number]/[round number (1-3)]</a>
-         </li>
-         <li>
-           <a href="/api/shows/date/2006">/api/shows/date/[year]</a>
-         </li>
-         <li>
-            <a href="/api/shows/date/2006/01">/api/shows/date/[year]/[month]</a>
-         </li>
-      </ul>
-   </body>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id='introduction'>Introduction</h1>
+<p>Welcome to the Jeopardy API! You can use our API to access Jeopardy API endpoints, which can get information on various shows, rounds, and questions in the database.</p>
+<h1 id='authentication'>Authentication</h1>
+<p>There is no authentication for the Jeopardy API but it is rate limited.</p>
+
+<aside class="notice">
+Please use this responsibly.
+</aside>
+<h1 id='question'>Question</h1><h2 id='get-a-random-question'>Get A Random Question</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://jeopardy-api.bentleyherron.dev/api/question"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Got a random show question."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"question"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"Show Number"</span><span class="p">:</span><span class="w"> </span><span class="mi">5422</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Air Date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2008-03-18"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Round"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Double Jeopardy!"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"THE LOVELY BONES"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"$1200"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Question"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The stapes, the smallest bone in the human body, is found in this organ"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Answer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"the ear"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint retrieves a random question.</p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET https://jeopardy-api.bentleyherron.dev/api/question</code></p>
+<h1 id='shows'>Shows</h1><h2 id='get-all-show-numbers'>Get All Show Numbers</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://jeopardy-api.bentleyherron.dev/api/shows"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Got all the show numbers."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"show_numbers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="mi">4680</span><span class="p">,</span><span class="w">
+        </span><span class="mi">5957</span><span class="p">,</span><span class="w">
+        </span><span class="mi">3751</span><span class="p">,</span><span class="w">
+        </span><span class="mi">3673</span><span class="p">,</span><span class="w">
+        </span><span class="mi">4931</span><span class="p">,</span><span class="w">
+        </span><span class="mi">5690</span><span class="p">,</span><span class="w">
+        </span><span class="mi">2825</span><span class="p">,</span><span class="w">
+        </span><span class="mi">6037</span><span class="p">,</span><span class="w">
+        </span><span class="mi">5243</span><span class="p">,</span><span class="w">
+        </span><span class="mi">3036</span><span class="p">,</span><span class="w">
+        </span><span class="mi">4107</span><span class="p">,</span><span class="w">
+        </span><span class="mi">2735</span><span class="p">,</span><span class="w">
+        </span><span class="err">...</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint retrieves all show numbers.</p>
+<h3 id='http-request-2'>HTTP Request</h3>
+<p><code>GET https://jeopardy-api.bentleyherron.dev/api/shows</code></p>
+<h2 id='get-questions-from-a-show'>Get Questions from a Show</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://jeopardy-api.bentleyherron.dev/api/shows/4892"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Got all the questions from show: 4892."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"questions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"Show Number"</span><span class="p">:</span><span class="w"> </span><span class="mi">4892</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Air Date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2005-12-13"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Round"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jeopardy!"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SCIENCE CLASS"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"$200"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Question"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Your body has millions of these glands, up to 625 per square inch of skin, &amp; they're probably now working overtime"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Answer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sweat glands"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"Show Number"</span><span class="p">:</span><span class="w"> </span><span class="mi">4892</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Air Date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2005-12-13"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Round"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jeopardy!"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NFL NICKNAMES"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"$200"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Question"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Broadway Joe"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Answer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Joe Namath"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"Show Number"</span><span class="p">:</span><span class="w"> </span><span class="mi">4892</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Air Date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2005-12-13"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Round"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jeopardy!"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AMERICANA"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"$200"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Question"</span><span class="p">:</span><span class="w"> </span><span class="s2">"In the 1920s Alvin </span><span class="se">\"</span><span class="s2">Shipwreck</span><span class="se">\"</span><span class="s2"> Kelly made a name for himself by sitting atop these, often for days at a time"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Answer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"flagpoles"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="err">...</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint retrieves a specific show or shows.</p>
+<h3 id='http-request-3'>HTTP Request</h3>
+<p><code>GET https://jeopardy-api.bentleyherron.dev/api/shows/&lt;show_number&gt;</code></p>
+<h3 id='url-parameters'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>&lt;show_number&gt;</code></td>
+<td>Will show all rounds/questions from a show.</td>
+</tr>
+<tr>
+<td><code>&lt;show_number&gt;</code> / round number (1-3)</td>
+<td>Will show all questions from a selected round of a show.</td>
+</tr>
+<tr>
+<td>date / <code>&lt;year&gt;</code></td>
+<td>Will return all shows from a given year.</td>
+</tr>
+<tr>
+<td>date / <code>&lt;year&gt;</code> / <code>&lt;month&gt;</code></td>
+<td>Will return all shows from a given year/month.</td>
+</tr>
+</tbody></table>
+<h1 id='categories'>Categories</h1><h2 id='get-all-categories'>Get All Categories</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://jeopardy-api.bentleyherron.dev/api/categories"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Got all the category names."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"category_names"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"HISTORY"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"ESPN's TOP 10 ALL-TIME ATHLETES"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"EVERYBODY TALKS ABOUT IT..."</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"THE COMPANY LINE"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"EPITAPHS &amp; TRIBUTES"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"3-LETTER WORDS"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"DR. SEUSS AT THE MULTIPLEX"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"PRESIDENTIAL STATES OF BIRTH"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"AIRLINE TRAVEL"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"THAT OLD-TIME RELIGION"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"MUSICAL TRAINS"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"X</span><span class="se">\"</span><span class="s2">s &amp; </span><span class="se">\"</span><span class="s2">O</span><span class="se">\"</span><span class="s2">s"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"THE SOLAR SYSTEM"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"GEOGRAPHY </span><span class="se">\"</span><span class="s2">E"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"RADIO DISNEY"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"PARTS OF PEACH"</span><span class="p">,</span><span class="w">
+        </span><span class="err">...</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint retrieves all the categories.</p>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>GET https://jeopardy-api.bentleyherron.dev/api/categories</code></p>
+<h2 id='get-questions-from-a-category'>Get Questions from a Category</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://jeopardy-api.bentleyherron.dev/api/categories/"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Got all the questions from show: 4892."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"questions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"Show Number"</span><span class="p">:</span><span class="w"> </span><span class="mi">4892</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Air Date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2005-12-13"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Round"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jeopardy!"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SCIENCE CLASS"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"$200"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Question"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Your body has millions of these glands, up to 625 per square inch of skin, &amp; they're probably now working overtime"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Answer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sweat glands"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"Show Number"</span><span class="p">:</span><span class="w"> </span><span class="mi">4892</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Air Date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2005-12-13"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Round"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jeopardy!"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NFL NICKNAMES"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"$200"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Question"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Broadway Joe"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Answer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Joe Namath"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"Show Number"</span><span class="p">:</span><span class="w"> </span><span class="mi">4892</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Air Date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2005-12-13"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Round"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jeopardy!"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AMERICANA"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"$200"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Question"</span><span class="p">:</span><span class="w"> </span><span class="s2">"In the 1920s Alvin </span><span class="se">\"</span><span class="s2">Shipwreck</span><span class="se">\"</span><span class="s2"> Kelly made a name for himself by sitting atop these, often for days at a time"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Answer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"flagpoles"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="err">...</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint retrieves a specific show or shows.</p>
+<h3 id='http-request-5'>HTTP Request</h3>
+<p><code>GET https://jeopardy-api.bentleyherron.dev/api/categories/&lt;category&gt;</code></p>
+<h3 id='url-parameters-2'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>&lt;category_name&gt;</code></td>
+<td>Will show all questions from that category.</td>
+</tr>
+</tbody></table>
+<h1 id='rounds'>Rounds</h1><h2 id='get-all-rounds'>Get All Rounds</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://jeopardy-api.bentleyherron.dev/api/rounds"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Got all the round names."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"round_names"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jeopardy!"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Double Jeopardy!"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"3"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Final Jeopardy!"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"4"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tiebreaker"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint retrieves all the categories.</p>
+<h3 id='http-request-6'>HTTP Request</h3>
+<p><code>GET https://jeopardy-api.bentleyherron.dev/api/rounds</code></p>
+
+<h1 id='values'>Values</h1><h2 id='get-all-values'>Get All Values</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://jeopardy-api.bentleyherron.dev/api/values"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Got all the values."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"value_names"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"$200"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"$400"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"$600"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"$800"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"$2,000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"$1000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"$1200"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"$1600"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"$2000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"$3,200"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"None"</span><span class="p">,</span><span class="w">
+        </span><span class="err">...</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint retrieves all the values.</p>
+<h3 id='http-request-7'>HTTP Request</h3>
+<p><code>GET https://jeopardy-api.bentleyherron.dev/api/values</code></p>
+
+<h1 id='errors'>Errors</h1>
+<p>The Jeopardy API uses the following error codes:</p>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>404</td>
+<td>Not Found -- The specified resouce could not be found.</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="shell">shell</a>
+          </div>
+      </div>
+    </div>
+  </body>
 </html>
