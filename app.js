@@ -11,22 +11,9 @@ const logger = require('morgan');
 // Routing
 const apiRouter = require('./routes/api');
 const indexRouter = require('./routes/index');
-const loginRouter = require('./routes/login');
-const logOutRouter = require('./routes/logout');
-const profileRouter = require('./routes/profile');
-const signUpRouter = require('./routes/signup');
-const forgotRouter = require('./routes/forgot');
 
 const app = express();
 
-// Session
-const session = require('express-session');
-const FileStore = require('session-file-store')(session);
-app.use(session({
-  store: new FileStore({}),
-  secret: process.env.SESSION_KEY,
-  cookie: { secure: false }
-}));
 
 // view engine setup
 const es6Renderer = require('express-es6-template-engine');
@@ -52,22 +39,9 @@ app.use(cors());
 const compression = require('compression');
 app.use(compression());
 
-// Requires Login
-function requireLogin(req, res, next) {
-  if (req.session && req.session.user) {
-      next();
-  } else {
-      res.redirect('/login');
-  }
-};
 
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
-app.use('/forgot', forgotRouter);
-app.use('/login', loginRouter);
-app.use('/signup', signUpRouter);
-app.use('/logout', requireLogin, logOutRouter);
-app.use('/profile', requireLogin, profileRouter);
 
 
 /////////////////////////////////////////////////////////////
