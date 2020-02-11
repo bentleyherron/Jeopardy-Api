@@ -11,22 +11,9 @@ const logger = require('morgan');
 // Routing
 const apiRouter = require('./routes/api');
 const indexRouter = require('./routes/index');
-const loginRouter = require('./routes/login');
-const logOutRouter = require('./routes/logout');
-const profileRouter = require('./routes/profile');
-const signUpRouter = require('./routes/signup');
-const forgotRouter = require('./routes/forgot');
 
 const app = express();
 
-// Session
-const session = require('express-session');
-const FileStore = require('session-file-store')(session);
-app.use(session({
-  store: new FileStore({}),
-  secret: process.env.SESSION_KEY,
-  cookie: { secure: false }
-}));
 
 // view engine setup
 const es6Renderer = require('express-es6-template-engine');
@@ -52,49 +39,36 @@ app.use(cors());
 const compression = require('compression');
 app.use(compression());
 
-// Requires Login
-function requireLogin(req, res, next) {
-  if (req.session && req.session.user) {
-      next();
-  } else {
-      res.redirect('/login');
-  }
-};
 
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
-app.use('/forgot', forgotRouter);
-app.use('/login', loginRouter);
-app.use('/signup', signUpRouter);
-app.use('/logout', requireLogin, logOutRouter);
-app.use('/profile', requireLogin, profileRouter);
 
 
 /////////////////////////////////////////////////////////////
 //      CATCHALL
-app.use('*', (req, res) => {
-  res.status(404).send({
-    success: false,
-    time: new Date(),
-    message: "The specified resource could not be found.",
-  })
-})
+// app.use('*', (req, res) => {
+//   res.status(404).send({
+//     success: false,
+//     time: new Date(),
+//     message: "The specified resource could not be found.",
+//   })
+// })
 /////////////////////////////////////////////////////////////
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+// // catch 404 and forward to error handler
+// app.use(function(req, res, next) {
+//   next(createError(404));
+// });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// // error handler
+// app.use(function(err, req, res, next) {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.render('error');
+// });
 
 module.exports = app;
