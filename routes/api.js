@@ -53,7 +53,7 @@ router.get('/values', (req, res)=> {
 
 
 // Go to other views for different API calls
-router.use('/show', showsRouter);
+router.use('/shows', showsRouter);
 router.use('/random', randomRouter);
 
 

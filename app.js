@@ -46,13 +46,13 @@ app.use('/api', apiRouter);
 
 /////////////////////////////////////////////////////////////
 //      CATCHALL
-// app.use('*', (req, res) => {
-//   res.status(404).send({
-//     success: false,
-//     time: new Date(),
-//     message: "The specified resource could not be found.",
-//   })
-// })
+app.use('*', (req, res) => {
+  res.status(404).send({
+    success: false,
+    time: new Date(),
+    message: "The specified resource could not be found.",
+  })
+})
 /////////////////////////////////////////////////////////////
 
 // // catch 404 and forward to error handler
